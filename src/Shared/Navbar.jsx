@@ -1,109 +1,217 @@
-import { Link, NavLink } from "react-router";
-import { useContext, useState } from "react";
-import { AuthContext } from "../AuthProvider/authProvider";
-import { toast } from "react-toastify";
-import { Menu, X } from "lucide-react"; // Optional icon (install: lucide-react)
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router';  
+import { AuthContext } from '../AuthProvider/authProvider';
+import { Heart, Menu, X, User, LogOut, Plus, List, MessageCircle } from 'lucide-react';
 
-const Navbar = () => {
+export default function Navbar() {
   const { user, logOut } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    logOut()
-      .then(() => toast.success("Logout successful"))
-      .catch((error) => toast.error(error.message));
+    logOut();
+    navigate('/');
+    setIsUserMenuOpen(false);
+    setIsMenuOpen(false);
   };
 
-  const navLinks = (
-    <>
-      <NavLink to="/" className="nav-link">Home</NavLink>
-      <NavLink to="/available-foods" className="nav-link">Available Foods</NavLink>
-      {user && (
-        <>
-          <NavLink to="/add-food" className="nav-link">Add Food</NavLink>
-          <NavLink to="/manage-foods" className="nav-link">Manage My Foods</NavLink>
-          <NavLink to="/my-requests" className="nav-link">My Food Request</NavLink>
-        </>
-      )}
-    </>
-  );
+  const closeMenus = () => {
+    setIsMenuOpen(false);
+    setIsUserMenuOpen(false);
+  };
 
   return (
-    <div className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white shadow fixed w-[70%]  top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center h-16">
+          
           {/* Logo */}
-          <Link to="/" className="text-2xl font-extrabold text-green-600">
-            Share<span className="text-emerald-400">Bite</span>
+          <Link 
+            to="/" 
+            className="flex items-center space-x-2"
+            onClick={closeMenus}
+          >
+            <div className="bg-emerald-500 p-2 rounded-lg group-hover:bg-emerald-600 transition-colors">
+              <Heart className="h-6 w-6 text-white" />
+            </div>
+            <span className="text-xl font-bold text-gray-800">FoodShare</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6 font-medium">
-            {navLinks}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className="text-gray-700 hover:text-emerald-600 transition-colors font-medium"
+            >
+              Home
+            </Link>
+            <Link 
+              to="/available-foods" 
+              className="text-gray-700 hover:text-emerald-600 transition-colors font-medium"
+            >
+              Available Foods
+            </Link>
 
-            {!user ? (
+            {user ? (
               <>
-                <NavLink to="/login" className="nav-link">Login</NavLink>
-                <NavLink to="/register" className="nav-link">Signup</NavLink>
+                <Link 
+                  to="/add-food" 
+                  className="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-medium flex items-center space-x-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>Add Food</span>
+                </Link>
+                
+                <div className="relative">
+                  <button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center space-x-2 text-gray-700 hover:text-emerald-600 transition-colors focus:outline-none"
+                  >
+                    <div className="bg-emerald-100 p-2 rounded-full">
+                      <User className="h-5 w-5 text-emerald-600" />
+                    </div>
+                    <span className="font-medium">{user.name}</span>
+                  </button>
+
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                      <Link 
+                        to="/manage-foods" 
+                        className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMenus}
+                      >
+                        <List className="h-4 w-4" />
+                        <span>Manage Foods</span>
+                      </Link>
+                      <Link 
+                        to="/food-requests" 
+                        className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                        onClick={closeMenus}
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        <span>Food Requests</span>
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors w-full text-left"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
-              <div className="flex items-center gap-3">
-                <img
-                  src={user.photoURL}
-                  alt="profile"
-                  className="w-10 h-10 rounded-full border-2 border-green-400"
-                  title={user.displayName}
-                />
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600 transition-all"
+              <div className="flex items-center space-x-4">
+                <Link 
+                  to="/login" 
+                  className="text-gray-700 hover:text-emerald-600 transition-colors font-medium"
                 >
-                  Logout
-                </button>
+                  Login
+                </Link>
+                <Link 
+                  to="/register" 
+                  className="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-medium"
+                >
+                  Register
+                </Link>
               </div>
             )}
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 text-gray-700 hover:text-emerald-600 transition-colors focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200 py-4">
+            <div className="flex flex-col space-y-4 px-4">
+              <Link 
+                to="/" 
+                className="text-gray-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                onClick={closeMenus}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/available-foods" 
+                className="text-gray-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                onClick={closeMenus}
+              >
+                Available Foods
+              </Link>
+
+              {user ? (
+                <>
+                  <div className="flex items-center space-x-2 text-gray-700">
+                    <div className="bg-emerald-100 p-2 rounded-full">
+                      <User className="h-5 w-5 text-emerald-600" />
+                    </div>
+                    <span className="font-medium">{user.name}</span>
+                  </div>
+                  <Link 
+                    to="/add-food" 
+                    className="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-medium flex items-center space-x-2"
+                    onClick={closeMenus}
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>Add Food</span>
+                  </Link>
+                  <Link 
+                    to="/manage-foods" 
+                    className="flex items-center space-x-2 text-gray-700 hover:text-emerald-600 transition-colors py-2"
+                    onClick={closeMenus}
+                  >
+                    <List className="h-4 w-4" />
+                    <span>Manage Foods</span>
+                  </Link>
+                  <Link 
+                    to="/food-requests" 
+                    className="flex items-center space-x-2 text-gray-700 hover:text-emerald-600 transition-colors py-2"
+                    onClick={closeMenus}
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    <span>Food Requests</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 text-gray-700 hover:text-emerald-600 transition-colors text-left py-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    to="/login" 
+                    className="text-gray-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                    onClick={closeMenus}
+                  >
+                    Login
+                  </Link>
+                  <Link 
+                    to="/register" 
+                    className="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-medium text-center"
+                    onClick={closeMenus}
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Mobile Nav */}
-      {isOpen && (
-        <div className="md:hidden bg-white px-4 pb-4 space-y-2">
-          <div className="flex flex-col space-y-2">
-            {navLinks}
-            {!user ? (
-              <>
-                <NavLink to="/login" className="nav-link">Login</NavLink>
-                <NavLink to="/register" className="nav-link">Signup</NavLink>
-              </>
-            ) : (
-              <div className="flex items-center gap-3">
-                <img
-                  src={user.photoURL}
-                  alt="profile"
-                  className="w-10 h-10 rounded-full border-2 border-green-400"
-                  title={user.displayName}
-                />
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600 transition-all"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+    </nav>
   );
-};
-
-export default Navbar;
+}
