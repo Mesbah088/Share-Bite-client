@@ -68,21 +68,30 @@ const Home = () => {
       </div>
 
       {/* Featured Foods Section */}
-      <div className="space-y-6">
-        <h2 className="text-3xl font-bold text-center text-green-700">Featured Foods</h2>
-
-        {loading ? (
-          <p className="text-center text-gray-500">Loading...</p>
-        ) : featuredFoods.length === 0 ? (
-          <p className="text-center text-red-500">No food items available right now.</p>
-        ) : (
+        {/* Featured Foods Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Foods</h2>
+              <p className="text-xl text-gray-600">Fresh food available in your community</p>
+            </div>
+            <Link 
+              to="/available-foods"
+              className="bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition-colors font-medium flex items-center space-x-2"
+            >
+              <span>View All</span>
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+          
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredFoods.map((food) => (
-              <FoodCard key={food._id} food={food} />
+              <FoodCard key={food.id} food={food} />
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      </section>
     </div>
   );
 };
