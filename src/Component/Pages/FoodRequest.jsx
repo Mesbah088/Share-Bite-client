@@ -7,12 +7,13 @@ export default function FoodRequests() {
   const { user } = useContext(AuthContext);
   const { foods, requests, updateRequest, loading } = useFood();
 
+  // ইউজারের রিকোয়েস্টসমূহ (ধরা হলো user._id)
+  const userRequests = requests.filter((req) => req.requesterId === user?._id);
 
-  const userRequests = requests.filter((req) => req.requesterId === user.id);
-
+  // ইউজারের ফুডগুলোর জন্য আসা রিকোয়েস্টসমূহ
   const requestsForUserFoods = requests.filter((req) => {
-    const food = foods.find((f) => f.id === req.foodId);
-    return food && food.donorId === user.id;
+    const food = foods.find((f) => f._id === req.foodId);
+    return food && food.donorId === user?._id;
   });
 
   const handleRequestAction = (requestId, action) => {
@@ -61,10 +62,10 @@ export default function FoodRequests() {
             ) : (
               <div className="space-y-4">
                 {userRequests.map((request) => {
-                  const food = foods.find((f) => f.id === request.foodId);
+                  const food = foods.find((f) => f._id === request.foodId);
                   return (
                     <div
-                      key={request.id}
+                      key={request._id}
                       className="border border-gray-200 rounded-lg p-4"
                     >
                       <div className="flex items-start justify-between mb-3">
@@ -81,14 +82,14 @@ export default function FoodRequests() {
                             request.status
                           )}`}
                         >
-                          {request.status.charAt(0).toUpperCase() +
-                            request.status.slice(1)}
+                          {request.status
+                            ? request.status.charAt(0).toUpperCase() +
+                              request.status.slice(1)
+                            : "Unknown"}
                         </span>
                       </div>
 
-                      <p className="text-gray-600 text-sm mb-3">
-                        {request.message}
-                      </p>
+                      <p className="text-gray-600 text-sm mb-3">{request.message}</p>
 
                       <div className="flex items-center text-xs text-gray-500">
                         <Calendar className="h-3 w-3 mr-1" />
@@ -122,10 +123,10 @@ export default function FoodRequests() {
             ) : (
               <div className="space-y-4">
                 {requestsForUserFoods.map((request) => {
-                  const food = foods.find((f) => f.id === request.foodId);
+                  const food = foods.find((f) => f._id === request.foodId);
                   return (
                     <div
-                      key={request.id}
+                      key={request._id}
                       className="border border-gray-200 rounded-lg p-4"
                     >
                       <div className="flex items-start justify-between mb-3">
@@ -135,7 +136,7 @@ export default function FoodRequests() {
                           </h3>
                           <div className="flex items-center text-sm text-gray-500">
                             <User className="h-3 w-3 mr-1" />
-                            <span>{request.requesterName}</span>
+                            <span>{request.requesterName || "Unknown"}</span>
                           </div>
                         </div>
                         <span
@@ -143,14 +144,14 @@ export default function FoodRequests() {
                             request.status
                           )}`}
                         >
-                          {request.status.charAt(0).toUpperCase() +
-                            request.status.slice(1)}
+                          {request.status
+                            ? request.status.charAt(0).toUpperCase() +
+                              request.status.slice(1)
+                            : "Unknown"}
                         </span>
                       </div>
 
-                      <p className="text-gray-600 text-sm mb-3">
-                        {request.message}
-                      </p>
+                      <p className="text-gray-600 text-sm mb-3">{request.message}</p>
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-xs text-gray-500">
@@ -165,7 +166,7 @@ export default function FoodRequests() {
                           <div className="flex items-center space-x-2">
                             <button
                               onClick={() =>
-                                handleRequestAction(request.id, "approved")
+                                handleRequestAction(request._id, "approved")
                               }
                               className="flex items-center space-x-1 bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition-colors text-sm"
                               disabled={loading}
@@ -175,7 +176,7 @@ export default function FoodRequests() {
                             </button>
                             <button
                               onClick={() =>
-                                handleRequestAction(request.id, "rejected")
+                                handleRequestAction(request._id, "rejected")
                               }
                               className="flex items-center space-x-1 bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors text-sm"
                               disabled={loading}
