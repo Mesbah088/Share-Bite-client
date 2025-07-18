@@ -26,7 +26,7 @@ const Home = () => {
     .slice(0, 3);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
+    <div className="max-w-6xl mx-auto mt-10 px-4 py-10">
       {/* Hero Section */}
       <div className="text-center space-y-6 mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-green-700">

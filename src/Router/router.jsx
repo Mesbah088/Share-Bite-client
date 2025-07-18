@@ -7,6 +7,7 @@ import ErrorPage from "../Component/MainLayout/Errorpage";
 import Home from "../Component/Pages/Home";
 import Login from "../Component/Pages/Login";
 import Register from "../Component/Pages/Register";
+import AvailableFoods from "../Component/Pages/AvailableFoods";
 
 
 
@@ -21,7 +22,11 @@ export const router = createBrowserRouter([
         index: true,
         path: "/",
         Component: Home,
-      }
+      },
+      {
+        path: "/available-foods",
+        Component: AvailableFoods,
+      },
     ]
 
   },
