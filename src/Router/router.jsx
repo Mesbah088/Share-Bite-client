@@ -8,6 +8,8 @@ import Home from "../Component/Pages/Home";
 import Login from "../Component/Pages/Login";
 import Register from "../Component/Pages/Register";
 import AvailableFoods from "../Component/Pages/AvailableFoods";
+import AddFood from "../Component/Pages/AddFood";
+import FoodRequests from "../Component/Pages/FoodRequest";
 
 
 
@@ -26,6 +28,14 @@ export const router = createBrowserRouter([
       {
         path: "/available-foods",
         Component: AvailableFoods,
+      },
+      {
+        path: "/add-food",
+        Component: AddFood,
+      },
+      {
+        path: "/food-requests",
+        Component: FoodRequests,
       },
     ]
 
