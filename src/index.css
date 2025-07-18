@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.nav-link {
+  @apply text-gray-600 hover:text-green-600 transition-all duration-200;
+}

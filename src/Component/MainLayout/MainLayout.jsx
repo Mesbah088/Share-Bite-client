@@ -1,13 +1,16 @@
-import React from 'react';
+
+import Container from '../../Shared/Container';
 import Navbar from '../../Shared/Navbar';
 import { Outlet } from 'react-router';
 
 const MainLayout = () => {
     return (
-        <div>
+      <Container>
+          <div>
             <Navbar/>
             <Outlet/>
         </div>
+      </Container>
     );
 };
 
