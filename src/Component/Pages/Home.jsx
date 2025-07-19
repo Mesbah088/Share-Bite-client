@@ -7,10 +7,10 @@ import { ArrowRight, Heart, Users, Utensils, Globe } from "lucide-react";
 const Home = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ console.log(foods);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/foods") 
+      .get("https://share-bite-server-phi.vercel.app/foods") 
       .then((res) => {
         setFoods(res.data);
         setLoading(false);
@@ -22,7 +22,7 @@ const Home = () => {
   }, []);
 
   const featuredFoods = foods
-    .filter((food) => food.status === "available")
+    .filter((food) => food?.status === "available")
     .slice(0, 3);
 
   return (

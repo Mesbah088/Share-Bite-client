@@ -20,7 +20,7 @@ export default function FoodDetails() {
 
   // ✅ fetch food by ID
   useEffect(() => {
-    axios.get(`http://localhost:3000/foods/${id}`)
+    axios.get(`https://share-bite-server-phi.vercel.app/foods/${id}`)
       .then(res => setFood(res.data))
       .catch(err => {
         console.error('Food fetch error:', err);
@@ -36,7 +36,7 @@ export default function FoodDetails() {
 
     setLoading(true);
     try {
-      await axios.post(`http://localhost:3000/requests`, {
+      await axios.post(`https://share-bite-server-phi.vercel.app/requests`, {
         foodId: food._id,
         donorId: food.donorId,
         userId: user._id,

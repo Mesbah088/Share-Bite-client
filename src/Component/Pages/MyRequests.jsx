@@ -50,7 +50,7 @@ const MyRequests = () => {
 
   const handleCancel = async (id) => {
     try {
-      await axios.patch(`http://localhost:3000/requests/${id}`, { status: 'rejected' });
+      await axios.patch(`https://share-bite-server-phi.vercel.app/requests/${id}`, { status: 'rejected' });
       toast.success('Request cancelled');
       fetchUserRequests();
     } catch (error) {
@@ -60,7 +60,7 @@ const MyRequests = () => {
 
   const handleComplete = async (id) => {
     try {
-      await axios.patch(`http://localhost:3000/requests/${id}`, { status: 'completed' });
+      await axios.patch(`https://share-bite-server-phi.vercel.app/requests/${id}`, { status: 'completed' });
       toast.success('Marked as collected');
       fetchUserRequests();
     } catch (error) {

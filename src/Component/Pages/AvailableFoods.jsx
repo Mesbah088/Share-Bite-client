@@ -7,7 +7,7 @@ export default function AvailableFoods() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/foods?status=available')
+    fetch('https://share-bite-server-phi.vercel.app/foods?status=available')
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch foods');
         return res.json();

@@ -13,7 +13,7 @@ export default function ManageFoods() {
 
   // Load all foods from database
   useEffect(() => {
-    axios.get('http://localhost:3000/foods')
+    axios.get('https://share-bite-server-phi.vercel.app/foods')
       .then(res => setFoods(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -24,7 +24,7 @@ export default function ManageFoods() {
   // Delete food item
   const deleteFood = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/foods/${id}`);
+      await axios.delete(`https://share-bite-server-phi.vercel.app/foods/${id}`);
       setFoods(prevFoods => prevFoods.filter(f => f._id !== id));
     } catch (err) {
       console.error('Delete failed:', err);

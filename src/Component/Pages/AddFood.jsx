@@ -57,7 +57,7 @@ export default function AddFood() {
       };
 
    
-      await axios.post('http://localhost:3000/foods', foodData);
+      await axios.post('https://share-bite-server-phi.vercel.app/foods', foodData);
 
       alert('Food added successfully!');
       navigate('/manage-foods');
