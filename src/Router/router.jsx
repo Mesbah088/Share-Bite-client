@@ -13,6 +13,7 @@ import FoodRequests from "../Component/Pages/FoodRequest";
 import ManageFoods from "../Component/Pages/ManageFoods";
 import FoodDetails from "../Component/Pages/FoodDetails";
 import MyRequests from "../Component/Pages/MyRequests";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -30,11 +31,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/available-foods",
-        Component: AvailableFoods,
+       element: <PrivateRoute> <AvailableFoods/> </PrivateRoute>
       },
       {
         path: "/add-food",
-        Component: AddFood,
+        element: <PrivateRoute> <AddFood/> </PrivateRoute>
       },
       {
         path: "/food-requests",
@@ -46,7 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/food/:id",
-        Component: FoodDetails,
+        element: <PrivateRoute> <FoodDetails/> </PrivateRoute>
       },
       {
         path: "/my-requests",
