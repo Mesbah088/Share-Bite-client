@@ -9,7 +9,7 @@ export const FoodProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
  
-  const API_BASE = 'http://localhost:3000'; 
+  const API_BASE = 'https://share-bite-server-phi.vercel.app/'; 
 
 
   const fetchFoods = async () => {

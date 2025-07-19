@@ -20,7 +20,8 @@ export default function FoodDetails() {
 
   // ✅ fetch food by ID
   useEffect(() => {
-    axios.get(`https://share-bite-server-phi.vercel.app/foods/${id}`)
+  axios.get(`https://share-bite-server-phi.vercel.app/foods/${id}`)
+
       .then(res => setFood(res.data))
       .catch(err => {
         console.error('Food fetch error:', err);
@@ -59,8 +60,8 @@ export default function FoodDetails() {
   const canRequest = user && user._id !== food.donorId && food.status === 'available';
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className=" bg-gray-50 py-12">
+      <div className=" mx-auto px-4">
         <button
           onClick={() => navigate('/available-foods')}
           className="flex items-center text-emerald-600 hover:text-emerald-700 mb-6"
